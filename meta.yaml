@@ -43,7 +43,6 @@ about:
   license_file: LICENSE
   license_url: https://github.com/phac-nml/covtrim/src/branch/main/LICENSE
   summary: CovTrim is a specialized bioinformatics tool designed for precise coverage-based downsampling of FASTQ files from amplicon sequencing data. It intelligently adjusts sequencing depth while maintaining quality metrics and amplicon representation, making it particularly useful for viral genomics, amplicon-based sequencing projects, and high-throughput sequencing optimization.
-
   description_file: README
   description_url: https://github.com/phac-nml/covtrim/src/branch/main/README.md
   dev_url: https://github.com/phac-nml/covtrim
