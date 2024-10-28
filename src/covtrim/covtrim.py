@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 import os
-import subprocess
+import pysam
 import argparse
 from pathlib import Path
 from datetime import datetime
@@ -54,7 +54,7 @@ def write_markdown_report(output_stats, stats_dict):
 
 ## Analysis Information
 - **Date**: {timestamp}
-- **Script Version**: 0.1.0
+- **Script Version**: 0.2.0
 
 ## Overview
 This report details the downsampling analysis performed on amplicon sequencing data, including the mathematical basis for coverage calculations and sampling decisions.
@@ -141,14 +141,38 @@ The downsampling process:
 - Random sampling is performed using Pandas' DataFrame.sample() function
 - Original FASTQ header information is preserved, including instrument and run metadata
 - Coverage calculations account for the amplicon-based sequencing approach
-
+- Implemented using pysam for efficient FASTQ processing
 """)
+
+def index_fastq(input_fastq):
+    """
+    Create an index of FASTQ reads and their lengths using pysam
+    
+    Parameters:
+    -----------
+    input_fastq : str
+        Path to input FASTQ file
+    
+    Returns:
+    --------
+    pandas.DataFrame
+        DataFrame containing read names and lengths
+    """
+    read_data = []
+    with pysam.FastxFile(input_fastq) as fin:
+        for entry in fin:
+            read_data.append({
+                'read_name': entry.name,
+                'len': len(entry.sequence)
+            })
+    
+    return pd.DataFrame(read_data)
 
 def downsample_fastq(input_fastq, target_coverage, output_dir, genome_size=16000, 
                     amplicon_size=500, random_seed=42):
     """
-    Downsample a FASTQ file to a target coverage
-
+    Downsample a FASTQ file to a target coverage using pysam
+    
     Parameters:
     -----------
     input_fastq : str
@@ -161,6 +185,8 @@ def downsample_fastq(input_fastq, target_coverage, output_dir, genome_size=16000
         Size of target genome in base pairs
     amplicon_size : int
         Size of individual amplicons
+    random_seed : int
+        Random seed for reproducible sampling
     """
     # Create output directory structure
     orig_filename = get_original_filename(input_fastq)
@@ -174,14 +200,9 @@ def downsample_fastq(input_fastq, target_coverage, output_dir, genome_size=16000
     # Calculate number of amplicons
     num_amplicons = np.ceil(genome_size / amplicon_size)
     
-    # Index the FASTQ file if needed
-    fai_file = input_fastq + '.fai'
-    if not os.path.exists(fai_file):
-        subprocess.run(['samtools', 'fqidx', input_fastq], check=True)
-    
-    # Read the .fai file
-    df = pd.read_csv(fai_file, sep='\t', header=None, 
-                    usecols=[0, 1], names=['read_name', 'len'])
+    # Index the FASTQ file using pysam
+    print("Indexing FASTQ file...")
+    df = index_fastq(input_fastq)
     
     # Calculate metrics
     total_bases = df['len'].sum()
@@ -258,23 +279,12 @@ def downsample_fastq(input_fastq, target_coverage, output_dir, genome_size=16000
     # Create a set of read IDs to sample
     read_ids = set(sampled_reads['read_name'])
     
-    # Process the FASTQ file and write sampled reads
+    # Process the FASTQ file using pysam and write sampled reads
     print(f"\nWriting sampled reads to {output_fastq}")
-    with open(input_fastq, 'r') as infile, open(output_fastq, 'w') as outfile:
-        while True:
-            header = infile.readline().strip()
-            if not header:  # End of file
-                break
-            seq = infile.readline().strip()
-            plus = infile.readline().strip()
-            qual = infile.readline().strip()
-            
-            # Extract read ID from header (everything before first space)
-            read_id = header.split()[0][1:]  # Remove @ and get ID
-            
-            # If this read is in our sampled set, write it to output
-            if read_id in read_ids:
-                outfile.write(f"{header}\n{seq}\n{plus}\n{qual}\n")
+    with pysam.FastxFile(input_fastq) as fin, open(output_fastq, 'w') as outfile:
+        for entry in fin:
+            if entry.name in read_ids:
+                outfile.write(f"@{entry.name}\n{entry.sequence}\n+\n{entry.quality}\n")
     
     print(f"Analysis complete. Report written to {output_stats}")
 
