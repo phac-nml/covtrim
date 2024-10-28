@@ -40,7 +40,7 @@ pytest = "^6.2.5"
 coverage = "^5.5"
 
 [build]
-script = ["covtrim=covtrim.covtrim:main"]
+script = ["covtrim=covtrim.covtrim_main:main"]
 
 [tool.poetry.scripts]
-covtrim = "covtrim.covtrim:main"
+covtrim = "covtrim.covtrim_main:main"

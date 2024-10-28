@@ -24,7 +24,7 @@ dependencies = [
     "pandas",
 ]
 
-entry_points = {"console_scripts": ["covtrim=covtrim.covtrim:main"]}
+entry_points = {"console_scripts": ["covtrim=covtrim.covtrim_main:main"]}
 
 # Project classifiers (https://pypi.org/classifiers/)
 classifiers=[
