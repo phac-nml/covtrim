@@ -17,6 +17,7 @@ stages:
   - 📦 Install
   - 🧪 Test
   - 🚀 Publish
+  - 💀 FinalTest
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
@@ -116,8 +117,8 @@ PublishPackage:
     - DESCRIPTION=$(cat README.md)
     - anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2 --force || anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2
 
-FinalInstallTest:
-  stage: 🧪 Final
+FinalTest:
+  stage: 💀 FinalTest
   needs: [PublishPackage]
   timeout: 6h
   script:
