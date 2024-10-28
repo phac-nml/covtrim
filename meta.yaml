@@ -18,7 +18,7 @@ build:
   number: 0
   script:
     - "{{ PYTHON }} -m pip install . --no-deps -vv"
-  build: 
+  conda_build: 
     - build.sh
   entry_points:
     - covtrim = covtrim.covtrim:main
