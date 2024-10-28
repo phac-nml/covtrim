@@ -7,3 +7,4 @@
 /dist
 /build
 /src/covtrim/__pycache__
+/src/covtrim.egg-info/

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+# Autor: Gurasis Osahan (National Microbiology Laboratory)
 import pandas as pd
 import numpy as np
 import os
@@ -7,6 +7,7 @@ import pysam
 import argparse
 from pathlib import Path
 from datetime import datetime
+import sys
 
 def calculate_amplicon_coverage(total_bases, num_amplicons, amplicon_size):
     """
@@ -356,15 +357,41 @@ def main():
 
     args = parser.parse_args()
 
-    # Update function call to use new arguments
-    downsample_fastq(
-        input_fastq=args.input_fastq,
-        target_coverage=args.target_coverage,
-        genome_size=args.genome_size,
-        amplicon_size=args.amplicon_size,
-        output_dir=args.output_dir,
-        random_seed=args.random_seed,
-    )
+    try:
+        downsample_fastq(
+            input_fastq=args.input_fastq,
+            target_coverage=args.target_coverage,
+            genome_size=args.genome_size,
+            amplicon_size=args.amplicon_size,
+            output_dir=args.output_dir,
+            random_seed=args.random_seed,
+        )
 
-if __name__ == '__main__':
+    except KeyboardInterrupt:
+        print(f"\nOperation terminated. Executing controlled shutdown of CovTrim...")
+
+    except EOFError:
+        print(f"\nEOF signal received. Initiating standard termination procedure of CovTrim...")
+
+    except FileNotFoundError as fnf_error:
+        print(f"File not found error: {fnf_error}. Check the file path and try again.")
+
+    except PermissionError as perm_error:
+        print(f"Permission error: {perm_error}. Check your user permissions for accessing or modifying the file.")
+
+    except OSError as os_error:
+        print(f"OS error: {os_error}. This could be related to system-level operations.")
+
+    except ValueError as val_error:
+        print(f"Value error: {val_error}. Check if the input values are of correct type or within an acceptable range.")
+
+    except ImportError as imp_error:
+        print(f"Import error: {imp_error}. Ensure that all required modules are installed and available.")
+
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}.")
+        # parser.print_help()  
+        sys.exit(1)
+
+if __name__ == "__main__": 
     main()
