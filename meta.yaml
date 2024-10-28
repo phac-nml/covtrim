@@ -8,12 +8,6 @@ package:
 source:
   path: .
 
-channels:
-  - gosahan
-  - fastchan
-  - conda-forge
-  - bioconda
-
 build:
   number: 0
   noarch: python
@@ -21,20 +15,19 @@ build:
     - covtrim = covtrim.covtrim:main
   script: {{ PYTHON }} -m pip install . --no-deps -vv
 
-
 requirements:
   host:
     - python >=3.7,<3.11
     - pip
-    - poetry-core
     - setuptools
     - wheel
+    - poetry-core
   run:
     - python >=3.7,<3.11
-    - pysam >=0.22.0,<0.23.0
     - numpy >=1.21.2,<2.0.0
-    - scipy >=1.7.1,<2.0.0
     - pandas >=1.3.3,<2.0.0
+    - pysam >=0.22.0,<0.23.0
+    - scipy >=1.7.1,<2.0.0
 
 
 about:
