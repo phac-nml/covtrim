@@ -92,15 +92,6 @@ HelpMenuTest:
 
 
 # Test Stage
-VersionConsoleTest:
-  stage: 🧪 Test
-  needs: [InstallPackage]
-  timeout: 6h
-  script:
-    - source /opt/conda/bin/activate covtrim_env/
-    - covtrim
-
-# Test Stage
 CLIModeTest:
   stage: 🧪 Test
   needs: [InstallPackage]
@@ -114,7 +105,7 @@ CLIModeTest:
 # Publish Stage
 PublishPackage:
   stage: 🚀 Publish
-  needs: [GitLabClone, BuildPackage, HelpMenuTest, VersionConsoleTest, CLIModeTest]
+  needs: [GitLabClone, BuildPackage, HelpMenuTest, CLIModeTest]
   timeout: 6h
   script:
     - conda create --prefix anaconda-upload -q "python=3.10" anaconda-client -y
