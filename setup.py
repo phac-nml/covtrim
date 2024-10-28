@@ -69,7 +69,7 @@ setuptools.setup(
     python_requires='>=3.8,<=3.11',
     keywords="bioinformatics genomics NGS pipeline coverage trimming FASTQ",
     project_urls=PROJECT_URLS,
-    packages=setuptools.find_packages(),  # Changed from find_namespace_packages
+    packages=setuptools.find_packages(),
     include_package_data=True,
     platforms='linux',
     zip_safe=False,
