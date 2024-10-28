@@ -16,12 +16,10 @@ channels:
 
 build:
   number: 0
-  script:
-    - "{{ PYTHON }} -m pip install . --no-deps -vv"
-  conda_build: 
-    - build.sh
+  noarch: python
   entry_points:
     - covtrim = covtrim.covtrim:main
+  script: {{ PYTHON }} -m pip install . --no-deps -vv
 
 
 requirements:
