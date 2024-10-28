@@ -17,7 +17,7 @@ stages:
   - 📦 Install
   - 🧪 Test
   - 🚀 Publish
-  - 💀 FinalTest
+  - 💀 CovtrimFinalCheck
 
 cache:
   key: "$CI_COMMIT_REF_SLUG"
@@ -58,6 +58,7 @@ BuildPackage:
     - conda create --prefix conda-build -q -y conda-build conda-verify mamba boa zstandard conda -y
     - source /opt/conda/bin/activate conda-build/
     - cd covtrim
+    - conda build purge
     - conda mambabuild --no-anaconda-upload . || conda build --no-anaconda-upload .
     - PACKAGE_PATH=$(find /opt/conda/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1)
     - cp $PACKAGE_PATH ../covtrim_package.tar.bz2
@@ -117,12 +118,12 @@ PublishPackage:
     - DESCRIPTION=$(cat README.md)
     - anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2 --force || anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2
 
-FinalTest:
-  stage: 💀 FinalTest
+CovtrimFinalCheck:
+  stage: 💀 CovtrimFinalCheck
   needs: [PublishPackage]
   timeout: 6h
   script:
     - conda create --prefix covtrim_env -q -c gosahan covtrim -y
     - source /opt/conda/bin/activate covtrim_env/
     - cd covtrim
-    - covtrim -i example/FAV29196_barcode01_e6e45773_e63dc735_1.fastq -o ./ -tc 10 -s 42 || anaconda -t $ANACONDA_TOKEN upload ./covtrim_package.tar.bz2 --force
+    - covtrim -i example/FAV29196_barcode01_e6e45773_e63dc735_1.fastq -o ./ -tc 10 -s 42 || anaconda -t $ANACONDA_TOKEN upload ../covtrim_package.tar.bz2 --force
