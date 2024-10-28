@@ -41,6 +41,7 @@ GitLabClone:
   stage: 📥 Clone
   timeout: 6h
   script:
+    - rm -rf covtrim
     - git clone https://gosahan:$GIT_CLONE_TOKEN@$GIT_URL/gosahan/covtrim.git
   artifacts:
     paths:
