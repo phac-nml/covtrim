@@ -54,7 +54,8 @@ BuildPackage:
   needs: [GitLabClone]
   timeout: 6h
   script:
-    - conda install -q -y conda-build conda-verify conda mamba boa -y
+    - conda create --prefix conda-build -q -y conda-build conda-verify mamba boa -y
+    - source /opt/conda/bin/activate conda-build/
     - cd covtrim
     - conda mambabuild --no-anaconda-upload . || conda build --no-anaconda-upload .
     - PACKAGE_PATH=$(find /opt/conda/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1)
@@ -114,3 +115,12 @@ PublishPackage:
     - cd covtrim
     - DESCRIPTION=$(cat README.md)
     - anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2 --force || anaconda -t $ANACONDA_TOKEN upload -d "$DESCRIPTION" ../covtrim_package.tar.bz2
+
+FinalInstallTest:
+  stage: 🧪 Final
+  needs: [PublishPackage]
+  timeout: 6h
+  script:
+    - conda create --prefix covtrim_env -q -c gosahan covtrim -y
+    - cd covtrim
+    - covtrim -i example/FAV29196_barcode01_e6e45773_e63dc735_1.fastq -o ./ -tc 10 -s 42
