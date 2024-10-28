@@ -16,18 +16,24 @@ channels:
 
 build:
   number: 0
+  entry_points:
+    - covtrim = covtrim.covtrim:main
   script: 
     - "{{ PYTHON }} -m pip install . --no-deps -vv"
-  post-link: post-link.sh
-  
+
 requirements:
   host:
-    - python<3.11
+    - python <3.11
     - pip
+    - setuptools
+    - wheel
     - poetry-core
   run:
-    - python<3.11
-    - wheel
+    - python <3.11
+    - numpy 
+    - pandas
+    - pysam
+    - scipy
 
 
 about:

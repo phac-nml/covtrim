@@ -54,9 +54,9 @@ BuildPackage:
   needs: [GitLabClone]
   timeout: 6h
   script:
-    - conda install -q -y conda-build conda-verify -y
+    - conda install -q -y conda-build conda-verify boa -y
     - cd covtrim
-    - conda build --no-anaconda-upload .
+    - conda mambabuild --no-anaconda-upload .
     - PACKAGE_PATH=$(find /opt/conda/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1)
     - cp $PACKAGE_PATH ../covtrim_package.tar.bz2
   artifacts:
