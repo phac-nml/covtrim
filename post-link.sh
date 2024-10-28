@@ -3,7 +3,7 @@
 set +e  
 
 # Second installation block with conda
-"${PREFIX}/bin/conda" install -c defaults -c conda-forge -c bioconda -c gosahan "samtools>=1.21" --yes
+"${PREFIX}/bin/conda" install -c conda-forge -c bioconda "samtools" --yes
 
 # Capture the exit code of the conda installation
 conda_install_exit_code=$?

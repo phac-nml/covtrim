@@ -30,6 +30,7 @@ requirements:
     - poetry-core
   run:
     - python<3.11
+    - samtools
     - wheel
 
 data_files:
