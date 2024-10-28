@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools", "wheel", "poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "covtrim"
+version = "0.1.0"
+description = "CovTrim is a specialized bioinformatics tool designed for precise coverage-based downsampling of FASTQ files from amplicon sequencing data."
+authors = ["Gurasis Osahan <gurasis.osahan@phac-aspc.gc.ca>"]
+license = "Apache License, Version 2.0"
+readme = "README.md"
+homepage = "https://github.com/phac-nml"
+repository = "https://github.com/phac-nml/covtrim"
+documentation = "https://github.com/phac-nml/covtrim/raw/branch/main/README.md"
+keywords = ["Bioinformatics", "genomics", "NGS", "pipeline", "amplicon", "nanopore"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.7",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pysam = "^0.16.0.1"
+numpy = "^1.21.2"
+scipy = "^1.7.1"
+pandas = "^1.3.3"
+
+# Add other dependencies from setup.py if necessary
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+coverage = "^5.5"
+
+[build]
+script = ["covtrim=covtrim.covtrim:main"]
+
+[tool.poetry.scripts]
+covtrim = "covtrim.covtrim:main"

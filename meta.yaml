@@ -1,0 +1,57 @@
+{% set name = "covtrim" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: .
+
+channels:
+  - gosahan
+  - fastchan
+  - conda-forge
+  - bioconda
+
+build:
+  number: 0
+  script:
+    - "{{ PYTHON }} -m pip install . --no-deps -vv"
+  post-link: 
+    - post-link.sh
+
+
+requirements:
+  host:
+    - python<3.11
+    - pip
+    - setuptools
+    - poetry-core
+  run:
+    - python<3.11
+    - wheel
+
+data_files:
+  - lib/python3.10/site-packages/covtrim: config.json
+
+about:
+  recipe-maintainers: Gurasis Osahan
+  home: https://github.com/phac-nml/
+  source-url: https://github.com/phac-nml/covtrim
+  license: Apache-2.0
+  license_file: LICENSE
+  license_url: https://github.com/phac-nml/covtrim/src/branch/main/LICENSE
+  summary: CovTrim is a specialized bioinformatics tool designed for precise coverage-based downsampling of FASTQ files from amplicon sequencing data. It intelligently adjusts sequencing depth while maintaining quality metrics and amplicon representation, making it particularly useful for viral genomics, amplicon-based sequencing projects, and high-throughput sequencing optimization.
+
+  description_file: README
+  description_url: https://github.com/phac-nml/covtrim/src/branch/main/README.md
+  dev_url: https://github.com/phac-nml/covtrim
+  doc_source_url: https://github.com/phac-nml/covtrim/src/branch/main/README.md
+
+extra:
+  keywords:
+    - bioinformatics
+    - NGS
+    - BAM
+    - sequencing
