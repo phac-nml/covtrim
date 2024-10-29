@@ -46,9 +46,9 @@ declare -a packages=(
     "typing_extensions>=4.0.0"
     "wheel>=0.44.0"
     "build>=1.0.0"
-    "numpy<2.0.0"
-    "pandas<2.0.0"
-    "pysam>=0.21.0"
+    "numpy=1.24.3"
+    "pandas=1.5.3"
+    "pysam>=0.20.0"
 )
 
 # Install each package
