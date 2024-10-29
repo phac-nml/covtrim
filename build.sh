@@ -52,7 +52,7 @@ fi
 
 # Verify installation
 echo "Verifying installation..."
-if $PYTHON -c "import covtrim; print(f'CovTrim version: {covtrim.__version__}')"; then
+if covtrim --version && covtrim --help; then
     echo "✓ CovTrim installation verified successfully."
 else
     echo "Error: Failed to import covtrim after installation"
