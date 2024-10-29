@@ -8,43 +8,33 @@ package:
 source:
   path: .
 
-
-channels:
-  - gosahan
-  - fastchan
-  - conda-forge
-  - bioconda
-  - defaults
-
 build:
+  noarch: python
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv" 
+  script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   host:
-    - python <3.11
+    - python >=3.9,<3.11
     - pip
     - setuptools
     - wheel
     - poetry-core
   run:
-    - python <3.11
+    - python >=3.9,<3.11
+    - numpy <2.0.0
+    - pandas <2.0.0
+    - pysam >0.20.0
     - setuptools
     - wheel
     - poetry-core
     - pip
-    - mamba
-    - numpy
-    - pandas
-    - pysam
-    - scipy
 
 test:
   imports:
     - numpy
     - pandas
     - pysam
-    - scipy
   commands:
     - python -V
     - covtrim --version

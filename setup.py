@@ -20,7 +20,6 @@ dependencies = [
     "build",
     "pysam",
     "numpy",
-    "scipy",
     "pandas",
 ]
 
