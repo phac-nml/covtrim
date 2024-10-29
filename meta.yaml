@@ -18,7 +18,7 @@ channels:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv || bash post-build.sh" 
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv" 
 
 requirements:
   host:
@@ -29,6 +29,11 @@ requirements:
     - poetry-core
   run:
     - python <3.11
+    - setuptools
+    - wheel
+    - poetry-core
+    - pip
+    - mamba
     - numpy
     - pandas
     - pysam
