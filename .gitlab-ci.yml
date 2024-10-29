@@ -55,7 +55,7 @@ BuildPackage:
   needs: [GitLabClone]
   timeout: 6h
   script:
-    - conda create --prefix conda-build -q -y conda-build conda-verify mamba boa zstandard conda -y
+    - conda create --prefix conda-build -q -y conda-build conda-verify conda-forge mamba boa zstandard conda lief -y
     - source /opt/conda/bin/activate conda-build/
     - cd covtrim
     - conda build purge

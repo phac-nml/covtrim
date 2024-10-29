@@ -8,12 +8,17 @@ package:
 source:
   path: .
 
+
 channels:
   - gosahan
   - fastchan
   - conda-forge
   - bioconda
   - defaults
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv || bash post-build.sh" 
 
 requirements:
   host:
