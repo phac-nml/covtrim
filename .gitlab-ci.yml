@@ -60,7 +60,7 @@ BuildPackage:
     - cd covtrim
     - conda build purge
     - conda mambabuild --no-anaconda-upload . || conda build --no-anaconda-upload .
-    - PACKAGE_PATH=$(find /opt/conda/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1)
+    - PACKAGE_PATH=$(find /opt/conda/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1) || PACKAGE_PATH=$(find /builds/gosahan/covtrim/conda-build/conda-bld/linux-64/ -name "covtrim-*.tar.bz2" | head -n 1)
     - cp $PACKAGE_PATH ../covtrim_package.tar.bz2
   artifacts:
     paths:
