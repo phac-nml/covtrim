@@ -9,3 +9,8 @@
 /covtrim/__pycache__
 /covtrim/covtrim.egg-info/
 /covtrim.egg-info
+.gitlab-ci.yml
+meta.yaml
+post-link.sh
+bld.bat
+example
