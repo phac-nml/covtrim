@@ -175,8 +175,6 @@ def calculate_amplicon_coverage(total_bases, num_amplicons, amplicon_size):
     }
 ```
 
-[Rest of the README remains the same...]
-
 ## Performance Analysis
 
 ### Time Complexity
